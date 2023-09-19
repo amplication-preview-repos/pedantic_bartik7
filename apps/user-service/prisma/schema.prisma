@@ -13,7 +13,30 @@ model User {
   id        String   @id @default(cuid())
   lastName  String?
   password  String
+  products  Product?
   roles     Json
   updatedAt DateTime @updatedAt
   username  String   @unique
+}
+
+model Product {
+  categoryId Category? @relation(fields: [id], references: [id])
+  id         String?   @unique
+  createdAt  DateTime  @default(now())
+  id         String    @id @default(cuid())
+  name       String
+  updatedAt  DateTime  @updatedAt
+  userId     User      @relation(fields: [id], references: [id])
+  id         String    @unique
+}
+
+model Category {
+  createdAt DateTime  @default(now())
+  id        String    @id @default(cuid())
+  name      String
+  parent    Category? @relation(name: "parent")
+  parentId  Category? @relation(name: "parent", fields: [id], references: [id])
+  id        String?   @unique
+  products  Product?
+  updatedAt DateTime  @updatedAt
 }
